@@ -329,7 +329,6 @@ docker-compose up --build
 ```bash
 # Keep database data
 docker-compose down
-<br>
 
 # Remove database data
 docker-compose down -v
