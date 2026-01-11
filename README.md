@@ -115,7 +115,7 @@ The application follows a layered architecture:
 └── README.md
 ```
 
-<br><br>
+<br>
 
 ### File Descriptions
 
@@ -291,14 +291,13 @@ All 30 tests passing ✅
 ### Running Tests
 
 <br>
+
 ```bash
 # Run all tests
 pytest
-<br>
 
 # Run with verbose output
 pytest -v
-<br>
 
 # Run specific test file
 pytest tests/test_payments.py
