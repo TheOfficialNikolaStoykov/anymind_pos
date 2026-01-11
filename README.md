@@ -9,7 +9,7 @@ A GraphQL-based payment processing system built with FastAPI and Strawberry Grap
 
 This project implements a Point of Sale (POS) payment processing API that handles multiple payment methods, calculates final prices with modifiers, awards loyalty points, and provides sales reporting functionality.
 
-
+<br><br><br>
 
 ## Functional Requirements
 
@@ -39,7 +39,7 @@ This project implements a Point of Sale (POS) payment processing API that handle
 4. **API Design**
    - Must use GraphQL or gRPC
 
-
+<br><br><br>
 
 ## Non-Functional Requirements
 
@@ -53,7 +53,7 @@ This project implements a Point of Sale (POS) payment processing API that handle
 8. **Testing** - System must include tests
 9. **Documentation** - Must include instructions for launching the server
 
-
+<br><br><br>
 
 ### Python Dependencies
 
@@ -64,7 +64,7 @@ This project implements a Point of Sale (POS) payment processing API that handle
 - Uvicorn - ASGI server
 - pytest & pytest-asyncio - Testing framework
 
-
+<br><br><br>
 
 ## Architecture
 
@@ -84,7 +84,7 @@ This project implements a Point of Sale (POS) payment processing API that handle
 └─────────────────┘
 ```
 
-
+<br><br><br>
 
 The application follows a layered architecture:
 
@@ -92,7 +92,7 @@ The application follows a layered architecture:
 2. **Business Logic Layer** - Payment validation and calculation logic
 3. **Data Layer** - SQLAlchemy ORM models and async database sessions
 
-
+<br><br><br>
 
 ## Project Structure
 
@@ -115,7 +115,7 @@ The application follows a layered architecture:
 └── README.md
 ```
 
-
+<br><br><br>
 
 ### File Descriptions
 
@@ -127,7 +127,7 @@ The application follows a layered architecture:
 | `app/database.py` | Configures async SQLAlchemy engine and session factory. Reads database credentials from environment variables. |
 | `app/payment_methods.py` | Contains payment method configuration including valid price modifier ranges, point calculation rates, and required additional fields (e.g., `last4` for cards, `courier` for delivery). |
 
-
+<br><br><br>
 
 ## Payment Methods
 
@@ -146,7 +146,7 @@ The application follows a layered architecture:
 | BANK_TRANSFER | 1.0 | 0 | `bank`, `accountNumber` |
 | CHEQUE | 0.9 - 1.0 | 0 | `bank`, `chequeNumber` |
 
-
+<br><br><br>
 
 ## API Usage
 
@@ -154,7 +154,7 @@ The application follows a layered architecture:
 
 Access the GraphQL Playground at: `http://localhost:8080/graphql`
 
-
+<br><br><br>
 
 ### Make Payment Mutation
 
@@ -181,7 +181,7 @@ mutation {
 }
 ```
 
-
+<br><br><br>
 
 ### Sales Report Query
 
@@ -198,7 +198,7 @@ query {
 }
 ```
 
-
+<br><br><br>
 
 ### Tests
 
@@ -247,6 +247,7 @@ The project includes comprehensive unit tests using `pytest` and `pytest-asyncio
 - `test_sales_report_empty_range` - Report with no payments in range returns empty list
 - `test_sales_report_invalid_date_range` - End date before start date rejected
 - `test_sales_report_invalid_datetime_format` - Invalid datetime format rejected
+<br><br>
 
 ## Test Results
 
@@ -285,73 +286,72 @@ All 30 tests passing ✅
 | `test_sales_report_invalid_datetime_format` | ✅ |
 | `test_make_payment_modifier_at_lower_bound` | ✅ |
 
-
+<br><br><br>
 
 ### Running Tests
 
-
+<br><br>
 ```bash
 # Run all tests
 pytest
-
+<br><br>
 
 # Run with verbose output
 pytest -v
-
+<br><br>
 
 # Run specific test file
 pytest tests/test_payments.py
 ```
 
-
+<br><br><br>
 
 ## Running the Application
 
 ### Using Docker Compose (Recommended)
-
+<br><br>
 
 1. Clone the repository:
 ```bash
 git clone <repository-url>
 ```
-
+<br><br>
 
 2. Start the services:
 ```bash
 docker-compose up --build
 ```
-
+<br><br>
 
 3. Access the GraphQL Playground at `http://localhost:8080/graphql`
-
+<br><br>
 
 4. To stop the services:
 ```bash
 # Keep database data
 docker-compose down
-
+<br><br>
 
 # Remove database data
 docker-compose down -v
 ```
-
-
+<br><br><br>
 
 ### Local Development
-
+<br><br>
 
 1. Create a virtual environment:
 ```bash
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
-
+<br><br>
 
 2. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
-
+<br><br>
 
 3. Set up environment variables (create `.env` file):
 ```env
@@ -361,16 +361,16 @@ DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=anymind_pos
 ```
-
+<br><br>
 
 4. Ensure PostgreSQL is running and the database exists
-
+<br><br>
 
 5. Run the application:
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
 ```
-
+<br><br><br>
 
 ## Environment Variables
 
@@ -381,3 +381,15 @@ uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
 | `DB_HOST` | Database host | `db` |
 | `DB_PORT` | Database port | `5432` |
 | `DB_NAME` | Database name | - |
+
+<br><br><br>
+
+## Scalability Considerations
+
+- **Async Architecture**: The application uses async/await throughout (FastAPI, SQLAlchemy async, asyncpg) to handle many concurrent requests efficiently without thread blocking.
+
+- **Horizontal Scaling**: The Dockerized application can be scaled horizontally by running multiple container instances behind a load balancer (e.g., nginx, AWS ALB, or Cloud Run's auto-scaling).
+
+- **Stateless Design**: The API is stateless - all state lives in PostgreSQL. This allows any instance to handle any request, enabling easy load balancing.
+
+- **Connection Pooling**: SQLAlchemy's connection pool manages database connections efficiently across concurrent requests.
