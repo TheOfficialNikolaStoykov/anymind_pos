@@ -4,6 +4,7 @@
 <br>
 ![Tests](https://github.com//TheOfficialNikolaStoykov/anymind_pos/actions/workflows/test.yml/badge.svg) 
 <br>
+
 A GraphQL-based payment processing system built with FastAPI and Strawberry GraphQL.
 
 
