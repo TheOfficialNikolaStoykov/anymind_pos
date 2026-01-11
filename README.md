@@ -84,7 +84,7 @@ This project implements a Point of Sale (POS) payment processing API that handle
 └─────────────────┘
 ```
 
-<br><br>
+<br>
 
 The application follows a layered architecture:
 
