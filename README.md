@@ -1,10 +1,14 @@
 # AnyMind POS - Payment Processing API
 
+![Tests](https://github.com//TheOfficialNikolaStoykov/anymind_pos/actions/workflows/test.yml/badge.svg)
+
 A GraphQL-based payment processing system built with FastAPI and Strawberry GraphQL.
+
 
 ## Overview
 
 This project implements a Point of Sale (POS) payment processing API that handles multiple payment methods, calculates final prices with modifiers, awards loyalty points, and provides sales reporting functionality.
+
 
 
 ## Functional Requirements
@@ -35,6 +39,8 @@ This project implements a Point of Sale (POS) payment processing API that handle
 4. **API Design**
    - Must use GraphQL or gRPC
 
+
+
 ## Non-Functional Requirements
 
 1. **Database** - Must use PostgreSQL
@@ -47,6 +53,8 @@ This project implements a Point of Sale (POS) payment processing API that handle
 8. **Testing** - System must include tests
 9. **Documentation** - Must include instructions for launching the server
 
+
+
 ### Python Dependencies
 
 - FastAPI - Web framework
@@ -55,6 +63,8 @@ This project implements a Point of Sale (POS) payment processing API that handle
 - asyncpg - Async PostgreSQL driver
 - Uvicorn - ASGI server
 - pytest & pytest-asyncio - Testing framework
+
+
 
 ## Architecture
 
@@ -74,11 +84,15 @@ This project implements a Point of Sale (POS) payment processing API that handle
 └─────────────────┘
 ```
 
+
+
 The application follows a layered architecture:
 
 1. **GraphQL Layer** - Handles incoming mutations and queries via Strawberry GraphQL
 2. **Business Logic Layer** - Payment validation and calculation logic
 3. **Data Layer** - SQLAlchemy ORM models and async database sessions
+
+
 
 ## Project Structure
 
@@ -101,6 +115,8 @@ The application follows a layered architecture:
 └── README.md
 ```
 
+
+
 ### File Descriptions
 
 | File | Description |
@@ -110,6 +126,8 @@ The application follows a layered architecture:
 | `app/models.py` | SQLAlchemy model for the `payments` table. Stores customer ID, price, modifier, final price, points, payment method, datetime, and additional metadata. |
 | `app/database.py` | Configures async SQLAlchemy engine and session factory. Reads database credentials from environment variables. |
 | `app/payment_methods.py` | Contains payment method configuration including valid price modifier ranges, point calculation rates, and required additional fields (e.g., `last4` for cards, `courier` for delivery). |
+
+
 
 ## Payment Methods
 
@@ -128,11 +146,15 @@ The application follows a layered architecture:
 | BANK_TRANSFER | 1.0 | 0 | `bank`, `accountNumber` |
 | CHEQUE | 0.9 - 1.0 | 0 | `bank`, `chequeNumber` |
 
+
+
 ## API Usage
 
 ### GraphQL Endpoint
 
 Access the GraphQL Playground at: `http://localhost:8080/graphql`
+
+
 
 ### Make Payment Mutation
 
@@ -159,6 +181,8 @@ mutation {
 }
 ```
 
+
+
 ### Sales Report Query
 
 ```graphql
@@ -173,6 +197,8 @@ query {
   }
 }
 ```
+
+
 
 ### Tests
 
@@ -222,45 +248,97 @@ The project includes comprehensive unit tests using `pytest` and `pytest-asyncio
 - `test_sales_report_invalid_date_range` - End date before start date rejected
 - `test_sales_report_invalid_datetime_format` - Invalid datetime format rejected
 
+## Test Results
+
+All 30 tests passing ✅
+
+| Test | Status |
+|------|--------|
+| `test_make_payment_cash` | ✅ |
+| `test_make_payment_cash_on_delivery` | ✅ |
+| `test_make_payment_visa` | ✅ |
+| `test_make_payment_mastercard` | ✅ |
+| `test_make_payment_amex` | ✅ |
+| `test_make_payment_jcb` | ✅ |
+| `test_make_payment_line_pay` | ✅ |
+| `test_make_payment_paypay` | ✅ |
+| `test_make_payment_points` | ✅ |
+| `test_make_payment_grab_pay` | ✅ |
+| `test_make_payment_bank_transfer` | ✅ |
+| `test_make_payment_cheque` | ✅ |
+| `test_make_payment_invalid_method` | ✅ |
+| `test_make_payment_modifier_out_of_range` | ✅ |
+| `test_make_payment_visa_missing_last4` | ✅ |
+| `test_make_payment_visa_invalid_last4` | ✅ |
+| `test_make_payment_cod_invalid_courier` | ✅ |
+| `test_sales_report` | ✅ |
+| `test_make_payment_cash_max_modifier` | ✅ |
+| `test_make_payment_negative_price` | ✅ |
+| `test_make_payment_zero_price` | ✅ |
+| `test_make_payment_invalid_price_format` | ✅ |
+| `test_make_payment_empty_customer_id` | ✅ |
+| `test_make_payment_invalid_datetime` | ✅ |
+| `test_make_payment_cod_missing_courier` | ✅ |
+| `test_make_payment_bank_transfer_missing_fields` | ✅ |
+| `test_sales_report_empty_range` | ✅ |
+| `test_sales_report_invalid_date_range` | ✅ |
+| `test_sales_report_invalid_datetime_format` | ✅ |
+| `test_make_payment_modifier_at_lower_bound` | ✅ |
+
+
+
 ### Running Tests
+
 
 ```bash
 # Run all tests
 pytest
 
+
 # Run with verbose output
 pytest -v
+
 
 # Run specific test file
 pytest tests/test_payments.py
 ```
 
+
+
 ## Running the Application
 
 ### Using Docker Compose (Recommended)
+
 
 1. Clone the repository:
 ```bash
 git clone <repository-url>
 ```
 
+
 2. Start the services:
 ```bash
 docker-compose up --build
 ```
 
+
 3. Access the GraphQL Playground at `http://localhost:8080/graphql`
+
 
 4. To stop the services:
 ```bash
 # Keep database data
 docker-compose down
 
+
 # Remove database data
 docker-compose down -v
 ```
 
+
+
 ### Local Development
+
 
 1. Create a virtual environment:
 ```bash
@@ -268,10 +346,12 @@ python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
+
 2. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
+
 
 3. Set up environment variables (create `.env` file):
 ```env
@@ -282,12 +362,15 @@ DB_PORT=5432
 DB_NAME=anymind_pos
 ```
 
+
 4. Ensure PostgreSQL is running and the database exists
+
 
 5. Run the application:
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
 ```
+
 
 ## Environment Variables
 
