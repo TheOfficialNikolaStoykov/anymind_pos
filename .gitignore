@@ -27,6 +27,10 @@ env/
 .venv/
 venv_linux/
 
+# Environment variables
+.env
+.env.local
+.env.*.local
 
 # IDE
 .idea/
