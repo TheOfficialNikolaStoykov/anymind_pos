@@ -174,25 +174,53 @@ query {
 }
 ```
 
-## Tests
+### Tests
 
-The project includes unit tests using `pytest` and `pytest-asyncio`.
+The project includes comprehensive unit tests using `pytest` and `pytest-asyncio` with an in-memory SQLite database for isolation.
 
 ### Test Categories
 
-- **Payment Mutation Tests** (`test_payments.py`)
-  - Valid payments for each payment method
-  - Price modifier validation (out of range)
-  - Required additional fields validation
-  - Invalid price format handling
-  - Negative price handling
-  - Empty customer ID handling
+**Payment Method Tests** - Valid payments for each payment method:
+- `test_make_payment_cash` - CASH payment with 0.95 modifier
+- `test_make_payment_cash_on_delivery` - COD with YAMATO courier
+- `test_make_payment_visa` - VISA with last4 digits
+- `test_make_payment_mastercard` - MASTERCARD with last4 digits
+- `test_make_payment_amex` - AMEX with last4 digits
+- `test_make_payment_jcb` - JCB with last4 digits
+- `test_make_payment_line_pay` - LINE_PAY payment
+- `test_make_payment_paypay` - PAYPAY payment
+- `test_make_payment_points` - POINTS payment (0 points earned)
+- `test_make_payment_grab_pay` - GRAB_PAY payment
+- `test_make_payment_bank_transfer` - Bank transfer with bank and account number
+- `test_make_payment_cheque` - Cheque with bank and cheque number
 
-- **Sales Report Tests** (`test_sales_report.py`)
-  - Hourly aggregation of sales data
-  - Date range filtering
-  - Points summation
-  - Empty result handling
+**Price Modifier Validation Tests:**
+- `test_make_payment_cash_max_modifier` - CASH with maximum allowed modifier (1.0)
+- `test_make_payment_modifier_at_lower_bound` - Modifier at exact lower bound (0.90)
+- `test_make_payment_modifier_out_of_range` - Modifier outside allowed range
+
+**Price Validation Tests:**
+- `test_make_payment_negative_price` - Negative price rejected
+- `test_make_payment_zero_price` - Zero price accepted
+- `test_make_payment_invalid_price_format` - Non-numeric price rejected
+
+**Additional Fields Validation Tests:**
+- `test_make_payment_visa_missing_last4` - VISA without required last4
+- `test_make_payment_visa_invalid_last4` - VISA with non-numeric last4
+- `test_make_payment_cod_missing_courier` - COD without courier
+- `test_make_payment_cod_invalid_courier` - COD with unsupported courier (UPS)
+- `test_make_payment_bank_transfer_missing_fields` - Bank transfer without required fields
+
+**Input Validation Tests:**
+- `test_make_payment_invalid_method` - Unknown payment method (BITCOIN)
+- `test_make_payment_empty_customer_id` - Empty customer ID rejected
+- `test_make_payment_invalid_datetime` - Invalid datetime format rejected
+
+**Sales Report Tests:**
+- `test_sales_report` - Basic sales report query
+- `test_sales_report_empty_range` - Report with no payments in range returns empty list
+- `test_sales_report_invalid_date_range` - End date before start date rejected
+- `test_sales_report_invalid_datetime_format` - Invalid datetime format rejected
 
 ### Running Tests
 
