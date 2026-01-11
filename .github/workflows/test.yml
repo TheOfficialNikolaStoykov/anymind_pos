@@ -25,6 +25,13 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+    env:
+      DB_USER: testuser
+      DB_PASSWORD: testpass
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_NAME: testdb
+
     steps:
       - uses: actions/checkout@v4
 
